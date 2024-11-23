@@ -1,19 +1,15 @@
-FROM node:20 AS build
+FROM node:20
 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY . .
 
 RUN npm run build
 
-FROM nginx:alpine
+CMD ["npm", "run", "preview"]
 
-COPY --from=build /app/dist /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["npm", "run", "start"]
+EXPOSE 4173
