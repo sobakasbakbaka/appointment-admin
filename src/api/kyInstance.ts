@@ -7,7 +7,7 @@ export const setUnauthorizedHandler = (handler: () => void) => {
 };
 
 export const kyInstance = ky.create({
-  prefixUrl: "http://localhost:3000",
+  prefixUrl: import.meta.env.VITE_API_URL,
   credentials: "include",
   headers: {
     "Content-Type": "application/json",
