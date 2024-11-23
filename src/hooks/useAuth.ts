@@ -8,7 +8,6 @@ export const useAuth = () => {
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      // Сохраняем токен в cookies
       const token = { access_token: data.access_token };
       Cookies.set("authToken", JSON.stringify(token), { expires: 1 });
       queryClient.invalidateQueries({ queryKey: ["users"] });

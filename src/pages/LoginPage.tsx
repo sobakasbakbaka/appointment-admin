@@ -1,39 +1,93 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FormEvent, useState } from "react";
 import { useAuth } from "../hooks/useAuth.ts";
+import {
+  Button,
+  Center,
+  Fieldset,
+  Group,
+  InputError,
+  Stack,
+  TextInput,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
 
 export const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleLogin = async () => {
+  const form = useForm({
+    mode: "controlled",
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validate: {
+      email: (value) =>
+        value.trim() === "" ? "Поле Email не должно быть пустым" : null,
+      password: (value) =>
+        value.trim() === "" ? "Поле Password не должно быть пустым" : null,
+    },
+    validateInputOnBlur: true,
+  });
+
+  const handleLogin = async (event: FormEvent) => {
+    event.preventDefault();
+    const validation = form.validate();
+
+    if (validation.hasErrors) {
+      return;
+    }
+
     try {
-      await login.mutateAsync({ email, password });
-      navigate("/");
+      await login.mutateAsync({
+        email: form.values.email,
+        password: form.values.password,
+      });
+      window.location.href = "/";
     } catch (error) {
-      setError("Incorrect email or password");
+      setError("Неверный email или пароль");
     }
   };
 
   return (
-    <div>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <button onClick={handleLogin}>Login</button>
-      {error && <p>{error}</p>}
-    </div>
+    <Center style={{ height: "100vh" }}>
+      <Fieldset
+        legend={"Авторизация"}
+        variant={"filled"}
+        style={{ width: 300 }}
+      >
+        <Stack
+          gap={8}
+          component={"form"}
+          onSubmit={handleLogin}
+          id={"login-form"}
+        >
+          <TextInput
+            label="Email"
+            placeholder={"Email"}
+            {...form.getInputProps("email")}
+            error={form.errors.email}
+          />
+          <TextInput
+            label="Password"
+            placeholder={"Password"}
+            {...form.getInputProps("password")}
+            error={form.errors.password}
+            type="password"
+          />
+          {error && <InputError>{error}</InputError>}
+        </Stack>
+        <Group justify="flex-end" mt="md">
+          <Button
+            type={"submit"}
+            variant="light"
+            color="gray"
+            form={"login-form"}
+          >
+            Авторизоваться
+          </Button>
+        </Group>
+      </Fieldset>
+    </Center>
   );
 };
