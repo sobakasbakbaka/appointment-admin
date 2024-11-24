@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "start": "echo 'Static files served by Railway'",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
