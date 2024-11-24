@@ -4,11 +4,11 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --verbose
 
 COPY . .
 
-RUN npm run build
+RUN npm run build || tail -n 20 /root/.npm/_logs/*.log
 
 FROM nginx:alpine
 
