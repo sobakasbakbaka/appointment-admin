@@ -5,7 +5,8 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { kyInstance } from "../api/kyInstance.ts";
+// import { kyInstance } from "../api/kyInstance.ts";
+import ky from "ky";
 
 interface AuthContextProps {
   isLoggedIn: boolean;
@@ -24,10 +25,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = (await kyInstance
-          .post("auth/check-auth", {
-            credentials: "include",
-          })
+        const response = (await ky
+          .post(
+            "https://appointment-production-0841.up.railway.app/api/auth/check-auth",
+            {
+              credentials: "include",
+            }
+          )
           .json()) as { message: string };
 
         if (response.message === "Authorized") {
