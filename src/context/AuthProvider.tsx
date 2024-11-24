@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const checkAuth = async () => {
       try {
         const response = (await kyInstance
-          .post("api/auth/check-auth", {
+          .post("auth/check-auth", {
             credentials: "include",
           })
           .json()) as { message: string };
