@@ -1,0 +1,17 @@
+node_modules
+/dist
+/.env
+/.git
+.gitignore
+Dockerfile
+README.md
+*.log
+*.md
+*.tsbuildinfo
+
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
