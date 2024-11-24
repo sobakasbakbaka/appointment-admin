@@ -8,7 +8,9 @@ RUN npm install --verbose
 
 COPY . .
 
-RUN npm run build || tail -n 20 /root/.npm/_logs/*.log
+RUN npm run build
+
+RUN ls -la /usr/src/app/dist
 
 FROM nginx:alpine
 
