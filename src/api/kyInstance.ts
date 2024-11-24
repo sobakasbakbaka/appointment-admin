@@ -6,8 +6,6 @@ export const setUnauthorizedHandler = (handler: () => void) => {
   unauthorizedHandler = handler;
 };
 
-console.log("VITE_API_URL", import.meta.env.VITE_API_URL);
-
 export const kyInstance = ky.create({
   prefixUrl: import.meta.env.VITE_API_URL,
   credentials: "include",
