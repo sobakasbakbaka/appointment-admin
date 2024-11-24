@@ -8,7 +8,7 @@ RUN npm install --verbose
 
 COPY . .
 
-RUN npm run build || (echo "Build failed" && tail -n 20 /root/.npm/_logs/*.log)
+RUN npm run build
 
 FROM nginx:alpine
 
