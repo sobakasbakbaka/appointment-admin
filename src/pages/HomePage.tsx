@@ -1,23 +1,16 @@
 import { useClients } from "../hooks/useClients.ts";
-import { useAuth } from "../hooks/useAuth.ts";
 import dayjs from "dayjs";
 import { Box, Stack, Text } from "@mantine/core";
+import { Link } from "react-router-dom";
 
 export const HomePage = () => {
   const { data } = useClients();
-  const { logout } = useAuth();
-
-  const handleLogout = async () => {
-    await logout.mutateAsync();
-  };
-
-  console.log("DATA", data);
 
   return (
     <div>
-      <div>
-        <button onClick={handleLogout}>logout</button>
-      </div>
+      <Stack p={16}>
+        <Link to="/masters">Master's list</Link>
+      </Stack>
       <Stack>
         {data?.map((client) => (
           <Box key={client.id} pb={16}>
